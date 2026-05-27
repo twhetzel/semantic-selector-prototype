@@ -85,10 +85,7 @@ class PyoxigraphBackend:
     def count_triples(self) -> int:
         if self._store is None:
             return 0
-        results = self._store.query("SELECT (COUNT(*) AS ?count) WHERE { ?s ?p ?o }")
-        row = next(iter(results))
-        value = normalize_sparql_value(row["count"])
-        return int(value)
+        return len(self._store)
 
     def close(self) -> None:
         self._store = None
