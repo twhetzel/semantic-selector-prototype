@@ -1,0 +1,8 @@
+weights:
+  term_match_frequency: 0.50
+  definition_coverage: 0.35
+  inbound_owl_import_count: 0.15
+
+filters:
+  exclude_obsolete_terms: true
+  require_definition: false

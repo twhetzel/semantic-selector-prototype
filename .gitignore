@@ -216,3 +216,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Semantic Selector local data
+data/input/
+data/tmp/
+data/indexes/*
+!data/indexes/.gitkeep
+config/sources.yaml
+config/extractors.yaml
+config/criteria.yaml
+config/ranking.yaml
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm

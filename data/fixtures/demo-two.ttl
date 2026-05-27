@@ -1,0 +1,25 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix demo: <http://example.org/demo/two#> .
+
+<http://example.org/demo/two> a owl:Ontology ;
+    dcterms:title "Demo Ontology Two" ;
+    owl:imports <http://example.org/demo/one> .
+
+demo:HeartAttackConcept a owl:Class ;
+    skos:prefLabel "myocardial infarction"@en ;
+    skos:prefLabel "infarctus myocardii"@la ;
+    oboInOwl:hasExactSynonym "MI"@en ;
+    rdfs:subClassOf demo:Disease .
+
+demo:Disease a owl:Class ;
+    skos:prefLabel "disease"@en ;
+    skos:definition "A disposition to undergo pathological processes."@en .
+
+demo:SynonymOnlyMatch a owl:Class ;
+    skos:prefLabel "unrelated preferred label"@en ;
+    skos:altLabel "myocardial infarction"@en .

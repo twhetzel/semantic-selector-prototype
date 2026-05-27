@@ -1,0 +1,76 @@
+# OBO Foundry disease/phenotype test set (local files in data/input/)
+# Download URLs (OBO Foundry PURL releases):
+#   http://purl.obolibrary.org/obo/mondo.owl
+#   http://purl.obolibrary.org/obo/doid.owl
+#   http://purl.obolibrary.org/obo/hp.owl
+#   http://purl.obolibrary.org/obo/go.owl
+#   http://purl.obolibrary.org/obo/obi.owl
+#   http://www.ebi.ac.uk/efo/efo.owl
+#   http://purl.obolibrary.org/obo/ncit.owl
+
+index:
+  output_path: "data/indexes/selector-index.sqlite"
+  snapshot_id: "obo-foundry-demo-001"
+
+build:
+  rdf_backend: "pyoxigraph"
+  temporary_store_dir: "data/tmp/rdf-store"
+  retain_rdf_store_after_build: true
+  instrumentation_enabled: true
+
+sources:
+  - artifact_id: "obo:mondo"
+    name: "Mondo Disease Ontology"
+    source_type: "local_file"
+    path: "data/input/mondo.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"
+
+  - artifact_id: "obo:doid"
+    name: "Human Disease Ontology"
+    source_type: "local_file"
+    path: "data/input/doid.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"
+
+  - artifact_id: "obo:hp"
+    name: "Human Phenotype Ontology"
+    source_type: "local_file"
+    path: "data/input/hp.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"
+
+  - artifact_id: "obo:go"
+    name: "Gene Ontology"
+    source_type: "local_file"
+    path: "data/input/go.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"
+
+  - artifact_id: "obo:obi"
+    name: "Ontology for Biomedical Investigations"
+    source_type: "local_file"
+    path: "data/input/obi.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"
+
+  - artifact_id: "obo:efo"
+    name: "Experimental Factor Ontology"
+    source_type: "local_file"
+    path: "data/input/efo.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"
+
+  - artifact_id: "obo:ncit"
+    name: "NCI Thesaurus"
+    source_type: "local_file"
+    path: "data/input/ncit.owl"
+    repository_id: "obo-foundry"
+    declared_version: null
+    access_scope: "public"

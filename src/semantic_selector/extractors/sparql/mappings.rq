@@ -1,0 +1,13 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?subject ?predicate ?object
+WHERE {
+  VALUES ?predicate {
+    owl:equivalentClass
+    skos:exactMatch
+    skos:closeMatch
+  }
+  ?subject ?predicate ?object .
+  FILTER(isIRI(?subject))
+}

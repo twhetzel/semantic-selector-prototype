@@ -1,0 +1,35 @@
+index:
+  output_path: "data/indexes/ontochoice-test-index.sqlite"
+  snapshot_id: "ontochoice-test-001"
+
+build:
+  rdf_backend: "rdflib"
+
+sources:
+  - artifact_id: "demo:ontology:one"
+    name: "Demo Ontology One"
+    source_type: "local_file"
+    path: "data/fixtures/demo-one.ttl"
+    repository_id: "local-demo"
+    access_scope: "local"
+
+  - artifact_id: "demo:ontology:two"
+    name: "Demo Ontology Two"
+    source_type: "local_file"
+    path: "data/fixtures/demo-two.ttl"
+    repository_id: "local-demo"
+    access_scope: "local"
+
+  - artifact_id: "demo:shared:a"
+    name: "Shared Term Ontology A"
+    source_type: "local_file"
+    path: "data/fixtures/shared-term-a.ttl"
+    repository_id: "local-demo"
+    access_scope: "local"
+
+  - artifact_id: "demo:shared:b"
+    name: "Shared Term Ontology B"
+    source_type: "local_file"
+    path: "data/fixtures/shared-term-b.ttl"
+    repository_id: "local-demo"
+    access_scope: "local"

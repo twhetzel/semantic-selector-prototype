@@ -1,0 +1,50 @@
+extractors:
+  - id: "artifact_metadata"
+    query_file: "src/semantic_selector/extractors/sparql/artifact_metadata.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "terms_and_labels"
+    query_file: "src/semantic_selector/extractors/sparql/terms_and_labels.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "definitions"
+    query_file: "src/semantic_selector/extractors/sparql/definitions.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "synonyms"
+    query_file: "src/semantic_selector/extractors/sparql/synonyms.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "hierarchy_relations"
+    query_file: "src/semantic_selector/extractors/sparql/hierarchy_relations.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "mappings"
+    query_file: "src/semantic_selector/extractors/sparql/mappings.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "version_metadata"
+    query_file: "src/semantic_selector/extractors/sparql/version_metadata.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "obsolete_terms"
+    query_file: "src/semantic_selector/extractors/sparql/obsolete_terms.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "ontology_document"
+    query_file: "src/semantic_selector/extractors/sparql/ontology_document.rq"
+    enabled: true
+    version: "0.1.0"
+
+  - id: "owl_imports"
+    query_file: "src/semantic_selector/extractors/sparql/owl_imports.rq"
+    enabled: true
+    version: "0.1.0"
