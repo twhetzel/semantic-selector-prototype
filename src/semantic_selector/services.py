@@ -352,8 +352,11 @@ class IndexService:
         include_obsolete: bool = False,
         limit: int = 20,
         include_term_evidence: bool = True,
+        conn: sqlite3.Connection | None = None,
     ) -> dict[str, Any]:
-        conn = self._conn()
+        owns_conn = conn is None
+        if conn is None:
+            conn = self._conn()
         try:
             manifest = get_manifest(conn)
             enforced = _load_enforced_selection_config(conn)
@@ -474,7 +477,8 @@ class IndexService:
                 "results": results,
             }
         finally:
-            conn.close()
+            if owns_conn:
+                conn.close()
 
     @staticmethod
     def _format_term_search_result(
@@ -545,6 +549,7 @@ class IndexService:
                     include_obsolete=not filters.get("exclude_obsolete_terms", True),
                     limit=200,
                     include_term_evidence=True,
+                    conn=conn,
                 )
                 for hit in term_hits["results"]:
                     if filters.get("require_definition") and not hit.get("definition"):
@@ -762,7 +767,9 @@ class IndexService:
 
             matching_terms = []
             if query:
-                search = self.search_terms(query=query, artifact_ids=artifact_ids, limit=50)
+                search = self.search_terms(
+                    query=query, artifact_ids=artifact_ids, limit=50, conn=conn
+                )
                 matching_terms = search["results"]
             return {
                 "snapshot_id": manifest["snapshot_id"] if manifest else None,
