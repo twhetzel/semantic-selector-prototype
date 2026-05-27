@@ -57,6 +57,33 @@ def test_synonym_exact_ranks_before_partial_match() -> None:
     assert classify_term_match(ranked[0][0], "diabetes") == "synonym_exact"
 
 
+def test_preferred_label_exact_prefers_native_ontology_curie() -> None:
+    rows = [
+        {
+            "artifact_id": "obo:mondo",
+            "term_iri": "http://purl.obolibrary.org/obo/MONDO_0005015",
+            "preferred_label": "Diabetes mellitus",
+            "synonyms_text": "",
+            "definitions_text": "",
+        },
+        {
+            "artifact_id": "obo:mondo",
+            "term_iri": "http://purl.obolibrary.org/obo/HP_0000819",
+            "preferred_label": "diabetes mellitus",
+            "synonyms_text": "",
+            "definitions_text": "",
+        },
+    ]
+    ranked = rank_term_rows(
+        rows,
+        query="diabetes mellitus",
+        bm25_scores=[0.0, 0.0],
+        ontology_scores={"obo:mondo": 0.8},
+    )
+    assert ranked[0][0]["term_iri"].endswith("MONDO_0005015")
+    assert ranked[0][2] == "preferred_label_exact"
+
+
 def test_ontology_score_breaks_ties_within_match_tier() -> None:
     rows = [
         {

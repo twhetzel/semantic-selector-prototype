@@ -28,6 +28,29 @@ def obo_id_from_term_iri(term_iri: str) -> str | None:
     return f"{prefix}:{rest}"
 
 
+def native_obo_prefix_from_artifact_id(artifact_id: str) -> str | None:
+    if artifact_id.startswith("obo:") and artifact_id.count(":") == 1:
+        return artifact_id.split(":", 1)[1].upper()
+    return None
+
+
+def term_obo_prefix(term_iri: str) -> str | None:
+    obo_id = obo_id_from_term_iri(term_iri)
+    if not obo_id:
+        return None
+    return obo_id.split(":", 1)[0].upper()
+
+
+def _native_term_rank(row: dict[str, Any]) -> int:
+    native_prefix = native_obo_prefix_from_artifact_id(str(row.get("artifact_id") or ""))
+    if not native_prefix:
+        return 0
+    term_prefix = term_obo_prefix(str(row.get("term_iri") or ""))
+    if term_prefix == native_prefix:
+        return 0
+    return 1
+
+
 def curie_to_obo_iri(query: str) -> str | None:
     candidate = query.strip()
     if not re.fullmatch(r"[\w-]+:[\w-]+", candidate, flags=re.IGNORECASE):
@@ -91,17 +114,26 @@ def classify_term_match(row: dict[str, Any], query: str) -> str:
     return "unknown"
 
 
+def _preferred_label_string_exactness(row: dict[str, Any], query: str, match_type: str) -> int:
+    if match_type != "preferred_label_exact":
+        return 0
+    preferred = str(row.get("preferred_label") or "")
+    return 0 if preferred.strip() == query.strip() else 1
+
+
 def term_match_sort_key(
     row: dict[str, Any],
     *,
     query: str,
     ontology_score: float = 0.0,
     bm25_score: float = 0.0,
-) -> tuple[int, float, float, str]:
+) -> tuple[int, int, int, float, float, str]:
     match_type = classify_term_match(row, query)
     tier = MATCH_TIER_ORDER.get(match_type, MATCH_TIER_ORDER["unknown"])
     return (
         tier,
+        _native_term_rank(row),
+        _preferred_label_string_exactness(row, query, match_type),
         -ontology_score,
         bm25_score,
         str(row.get("term_iri") or ""),
@@ -116,7 +148,7 @@ def rank_term_rows(
     ontology_scores: dict[str, float] | None = None,
 ) -> list[tuple[dict[str, Any], float, str]]:
     score_lookup = ontology_scores or {}
-    ranked: list[tuple[dict[str, Any], float, str, tuple[int, float, float, str]]] = []
+    ranked: list[tuple[dict[str, Any], float, str, tuple[int, int, int, float, float, str]]] = []
     for row, bm25_score in zip(rows, bm25_scores, strict=True):
         match_type = classify_term_match(row, query)
         artifact_id = str(row.get("artifact_id") or "")
