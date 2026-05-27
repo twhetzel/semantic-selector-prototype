@@ -78,6 +78,20 @@ class PyoxigraphBackend:
         if self._store is None:
             raise RuntimeError("Pyoxigraph store is not loaded")
         results = self._store.query(sparql)
+        if not hasattr(results, "variables"):
+            result_type = type(results).__name__
+            if result_type == "QueryBoolean":
+                yield {"value": bool(results)}
+                return
+            if result_type == "QueryTriples":
+                for triple in results:
+                    yield {
+                        "subject": normalize_sparql_value(triple.subject),
+                        "predicate": normalize_sparql_value(triple.predicate),
+                        "object": normalize_sparql_value(triple.object),
+                    }
+                return
+            raise TypeError(f"Unsupported SPARQL query result type: {result_type}")
         variables = [variable.value for variable in results.variables]
         for row in results:
             yield {name: normalize_sparql_value(row[name]) for name in variables}

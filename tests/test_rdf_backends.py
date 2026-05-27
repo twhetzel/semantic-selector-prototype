@@ -156,6 +156,27 @@ def test_pyoxigraph_store_retained_when_configured(fixtures_dir, tmp_path) -> No
     assert store_path.exists()
 
 
+def test_pyoxigraph_query_handles_non_select_results(fixtures_dir, tmp_path) -> None:
+    store_path = artifact_store_path(tmp_path / "rdf-store", "demo:fixture")
+    backend = PyoxigraphBackend(store_path=store_path, retain_store=False)
+    backend.load_artifact(fixtures_dir / "demo-one.ttl")
+
+    select_rows = list(backend.query("SELECT ?s WHERE { ?s ?p ?o } LIMIT 1"))
+    assert select_rows
+    assert "s" in select_rows[0]
+
+    ask_rows = list(backend.query("ASK { ?s ?p ?o }"))
+    assert ask_rows == [{"value": True}]
+
+    construct_rows = list(
+        backend.query("CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 1")
+    )
+    assert construct_rows
+    assert {"subject", "predicate", "object"} <= set(construct_rows[0])
+
+    backend.cleanup_store()
+
+
 def test_build_report_records_extractor_metrics(config_dir, tmp_path, index_path) -> None:
     report_path = tmp_path / "build-report.json"
     report = build_index(
