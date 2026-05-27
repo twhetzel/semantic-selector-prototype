@@ -127,3 +127,16 @@ def test_malformed_source_logged(config_dir, index_path, tmp_path) -> None:
     ).fetchone()
     conn.close()
     assert events["c"] >= 1
+
+
+def test_read_only_connect_handles_paths_with_spaces(tmp_path) -> None:
+    db_path = tmp_path / "my indexes" / "selector index.sqlite"
+    init_database(db_path)
+
+    conn = connect(db_path, read_only=True)
+    try:
+        row = conn.execute("SELECT name FROM sqlite_master WHERE type = 'table' LIMIT 1").fetchone()
+    finally:
+        conn.close()
+
+    assert row is not None

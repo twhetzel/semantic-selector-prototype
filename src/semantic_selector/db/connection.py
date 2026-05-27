@@ -10,7 +10,7 @@ from semantic_selector.db.schema import apply_migrations
 
 def connect(db_path: Path, *, read_only: bool = False) -> sqlite3.Connection:
     if read_only:
-        uri = f"file:{db_path}?mode=ro"
+        uri = f"{db_path.resolve().as_uri()}?mode=ro"
         conn = sqlite3.connect(uri, uri=True)
     else:
         db_path.parent.mkdir(parents=True, exist_ok=True)
