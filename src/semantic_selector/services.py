@@ -15,12 +15,12 @@ from rdflib.exceptions import ParserError
 
 from semantic_selector import __version__
 from semantic_selector.db.connection import connect, init_database, transaction
-from semantic_selector.build.post_index import (
+from semantic_selector.index_build.post_index import (
     compute_inbound_owl_import_counts,
     compute_term_iri_reuse,
     load_term_reuse_map,
 )
-from semantic_selector.build.progress import BuildProgressReporter
+from semantic_selector.index_build.progress import BuildProgressReporter
 from semantic_selector.criteria.enforced import (
     EnforcedSelectionConfig,
     apply_enforced_selection,

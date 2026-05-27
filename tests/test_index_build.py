@@ -9,7 +9,7 @@ from semantic_selector.db.schema import rebuild_fts
 from semantic_selector.db.writer import insert_artifact, insert_term
 from semantic_selector.ingestion.provenance import utc_now_iso
 from semantic_selector.services import build_index, validate_index
-from semantic_selector.build.progress import BuildProgressReporter
+from semantic_selector.index_build.progress import BuildProgressReporter
 
 
 def test_schema_and_fts5(index_path) -> None:

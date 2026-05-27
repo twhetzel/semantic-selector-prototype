@@ -9,7 +9,7 @@ import uvicorn
 from semantic_selector.db.connection import init_database
 from semantic_selector.mcp.server import run_mcp_stdio
 from semantic_selector.services import build_index, inspect_index, validate_index
-from semantic_selector.build.progress import BuildProgressReporter
+from semantic_selector.index_build.progress import BuildProgressReporter
 from semantic_selector.settings import DEFAULT_INDEX_PATH, resolve_path
 
 app = typer.Typer(no_args_is_help=True, help="Semantic Selector MVP CLI")
