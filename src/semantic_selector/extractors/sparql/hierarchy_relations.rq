@@ -1,0 +1,9 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?subject ?predicate ?object
+WHERE {
+  VALUES ?predicate { rdfs:subClassOf skos:broader skos:narrower }
+  ?subject ?predicate ?object .
+  FILTER(isIRI(?subject) && isIRI(?object))
+}

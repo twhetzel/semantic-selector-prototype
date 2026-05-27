@@ -1,0 +1,123 @@
+criteria:
+  # --- Table-aligned ontology ranking/filter criteria ---
+
+  - id: "term_match_frequency"
+    display_name: "Ontology term match frequency"
+    description: "Share of requested query concepts with at least one matching term in the artifact."
+    category: "Relevance (A)"
+    source_criterion: "Ont: Term Match Frequency"
+    applies_to: ["ontology"]
+    role: "ranking"
+    evaluation_stage: "query_time"
+    enabled: true
+    table_aligned: true
+    default_weight: 0.50
+
+  - id: "definition_coverage"
+    display_name: "Term definition coverage across ontology"
+    description: "Share of labeled terms with at least one definition."
+    category: "Relevance (A)"
+    source_criterion: "Ont: Term Details"
+    applies_to: ["ontology"]
+    role: "ranking_and_evidence"
+    evaluation_stage: "index_build"
+    evaluator: "term_annotations.definition_coverage"
+    enabled: true
+    table_aligned: true
+    default_weight: 0.35
+
+  - id: "enforced_selection_list"
+    display_name: "Enforced selection list eligibility"
+    description: "Optional allow/block lists for ontology artifacts and terms."
+    category: "Community-Enforced Criteria (C)"
+    source_criterion: "Enforced Selection List"
+    applies_to: ["ontology", "term"]
+    role: "filter"
+    evaluation_stage: "query_time"
+    enabled: false
+    table_aligned: true
+    default_weight: 0.0
+    allowed_artifact_ids: []
+    blocked_artifact_ids: []
+    allowed_term_iris: []
+    blocked_term_iris: []
+
+  - id: "inbound_owl_import_count"
+    display_name: "Inbound ontology imports"
+    description: "Number of other indexed ontologies that owl:import this ontology."
+    category: "Reuse Criteria (F)"
+    source_criterion: "Includes"
+    applies_to: ["ontology"]
+    role: "ranking_and_evidence"
+    evaluation_stage: "index_build"
+    evaluator: "reuse.inbound_owl_import_count"
+    enabled: true
+    table_aligned: true
+    default_weight: 0.15
+
+  - id: "multilanguage_annotations"
+    display_name: "Multi-language annotations"
+    description: "Distinct annotation language tags present in the ontology."
+    category: "Internationalization Criteria (K)"
+    source_criterion: "Multi-language annotations"
+    applies_to: ["ontology", "term"]
+    role: "descriptive_evidence"
+    evaluation_stage: "index_build"
+    evaluator: "i18n.multilanguage_annotations"
+    enabled: true
+    table_aligned: true
+    default_weight: 0.0
+
+  # --- Table-aligned term evidence criteria ---
+
+  - id: "term_definitions_and_annotations"
+    display_name: "Term definitions and other annotations"
+    description: "Definition, synonym, hierarchy, mapping, and language evidence for matched terms."
+    category: "Relevance (A)"
+    source_criterion: "Term: Definitions and Other Annotations"
+    applies_to: ["term"]
+    role: "evidence"
+    evaluation_stage: "query_time"
+    enabled: true
+    table_aligned: true
+    default_weight: 0.0
+
+  - id: "term_reuse_by_identifier"
+    display_name: "Term reuse by identifier"
+    description: "Count of other indexed artifacts containing the same term IRI; boosts term search ranking when the same match quality ties."
+    category: "Reuse Criteria (F)"
+    source_criterion: "Term Reuse"
+    applies_to: ["term"]
+    role: "evidence"
+    evaluation_stage: "index_build"
+    enabled: true
+    table_aligned: true
+    default_weight: 0.0
+
+  # --- Supporting metrics (not claimed as selected OntoChoice category criteria) ---
+
+  - id: "synonym_coverage"
+    display_name: "Synonym coverage across ontology"
+    description: "Share of labeled terms with at least one synonym."
+    category: "Relevance (A)"
+    source_criterion: "Supporting evidence for Ont: Term Details"
+    applies_to: ["ontology"]
+    role: "supporting_evidence"
+    evaluation_stage: "index_build"
+    evaluator: "term_annotations.synonym_coverage"
+    enabled: true
+    table_aligned: false
+    default_weight: 0.0
+
+  - id: "has_version_metadata"
+    display_name: "Version metadata present"
+    description: "Artifact declares at least one version metadata property."
+    category: null
+    source_criterion: null
+    applies_to: ["ontology"]
+    role: "provenance_evidence"
+    evaluation_stage: "index_build"
+    evaluator: "metadata.has_version_metadata"
+    enabled: true
+    table_aligned: false
+    default_weight: 0.0

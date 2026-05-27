@@ -1,0 +1,26 @@
+index:
+  output_path: "data/indexes/selector-index.sqlite"
+  snapshot_id: "local-demo-001"
+
+build:
+  rdf_backend: "rdflib"
+  temporary_store_dir: "data/tmp/rdf-store"
+  retain_rdf_store_after_build: false
+  instrumentation_enabled: true
+
+sources:
+  - artifact_id: "demo:ontology:one"
+    name: "Demo Ontology One"
+    source_type: "local_file"
+    path: "data/fixtures/demo-one.ttl"
+    repository_id: "local-demo"
+    declared_version: null
+    access_scope: "local"
+
+  - artifact_id: "demo:ontology:two"
+    name: "Demo Ontology Two"
+    source_type: "local_file"
+    path: "data/fixtures/demo-two.ttl"
+    repository_id: "local-demo"
+    declared_version: null
+    access_scope: "local"

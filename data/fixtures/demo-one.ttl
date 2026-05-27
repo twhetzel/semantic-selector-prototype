@@ -1,0 +1,24 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix demo: <http://example.org/demo/one#> .
+
+<http://example.org/demo/one> a owl:Ontology ;
+    dcterms:title "Demo Ontology One" ;
+    owl:versionInfo "2026-01" ;
+    owl:versionIRI <http://example.org/demo/one/2026-01> .
+
+demo:MyocardialInfarction a owl:Class ;
+    skos:prefLabel "myocardial infarction"@en ;
+    skos:definition "Acute ischemic necrosis of myocardium due to obstruction of a coronary artery."@en ;
+    skos:altLabel "heart attack"@en ;
+    rdfs:subClassOf demo:CardiovascularDisorder .
+
+demo:CardiovascularDisorder a owl:Class ;
+    skos:prefLabel "cardiovascular disorder"@en .
+
+demo:DeprecatedTerm a owl:Class ;
+    skos:prefLabel "old cardiac term"@en ;
+    owl:deprecated true .
